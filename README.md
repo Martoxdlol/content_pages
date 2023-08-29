@@ -1,34 +1,78 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# NextJS with Auth, TRPc, Tailwind, shadcn/ui and using App Router.
 
-## Getting Started
+## Project Struncture
 
-First, run the development server:
+`/app` app router entrypoint. See [App Router Documentation](https://nextjs.org/docs/app/building-your-application/routing)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+`/server` all server code.
+
+`/server/index` entrypoint for defining server procedures.
+
+`/server/auth` auth config and functions.
+
+`/server/db` database configuration.
+
+`/server/trpc` trpc procedures definition.
+
+`/pages/` legacy Pages Router, only used for next-auth, do not use it for anything else!
+
+`/lib/client` client entrypoint for calling server procedures (using the `api` object)
+
+`/drizzle` all database schemas using drizzle orm
+
+`/components/ui` shadcn/ui components
+`/components` components specific for the app
+
+## Call api (server procedures) from the code
+
+Example: query the message from the server (GET)
+
+```tsx
+// Use inside a React component
+
+const { data: message } = api.message.useQuery();
+
+return <p>{message}</p>;
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Example: excecute a mutation (POST)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```tsx
+// Use inside a React component
+const { mutateAsync: createSomething } = api.createSomething.useQuery();
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+async function handleCreate() {
+  try {
+    const something = await createSomething({ name: "something" });
+  } catch (error) {
+    console.error(error);
+  }
+}
 
-## Learn More
+return <button onClick={handleCreate}>Create</button>;
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Using the database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+See [drizzle-orm](https://orm.drizzle.team/docs/quick-start)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+See [Table schemas](https://orm.drizzle.team/docs/schemas)
 
-## Deploy on Vercel
+See [Querying with SQL-like syntax [CRUD]](https://orm.drizzle.team/docs/crud)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Example:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+```tsx
+import { eq } from "drizzle-orm";
+import { database, schema } from '~/server/db';
+
+const user = await database.query.users.findFirst({
+  where: eq(schema.users.email, 'user@gmail.com')
+})
+
+const user2 = await database.select({
+  name: schema.users.name,
+  id: schema.users.id, email: schema.users.email
+}).from(schema.users).where(eq(schema.users.email, 'user2@gmail.com'))
+
+```
