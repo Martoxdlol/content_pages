@@ -1,16 +1,21 @@
 import { CommandMenu } from "@/components/command-menu"
+import { MobileNav } from "./mobile-nav"
+// import Image from "next/image"
 
 
 export default function SiteHeader() {
   return (
     <header className="supports-backdrop-blur:bg-background/60 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-      <div className="container flex h-14 items-center">
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
+      <div className="pl-2 flex h-14 items-center">
+        <MobileNav showOnDesktop />
+        {/* <Image alt="Site Logo" src="/next.svg"  height={30} width={147.75} className="mr-5" /> */}
+        <p>Site Name</p>
+        <div className="flex flex-1 items-center space-x-2 justify-end">
+          <div className="w-auto flex-none">
             <CommandMenu />
           </div>
           <nav className="flex items-center">
-    
+
           </nav>
         </div>
       </div>

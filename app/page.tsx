@@ -11,18 +11,4 @@ export default async function Home() {
     return <Layout>
 
     </Layout>
-
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-center gap-6 p-24">
-            {session && <p>Welcome {session!.user.name} <SignOutButton /></p>}
-            {!session && <SignInButton />}
-            <div>
-                <ServerClock />
-            </div>
-            <div>
-                <PrivateMessage />
-            </div>
-            <ComboboxDemo />
-        </main>
-    )
 }

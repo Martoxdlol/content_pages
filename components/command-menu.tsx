@@ -23,6 +23,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "~/components/ui/command"
+import { Search } from "lucide-react"
 
 export function CommandMenu({ ...props }: DialogProps) {
   const router = useRouter()
@@ -51,20 +52,26 @@ export function CommandMenu({ ...props }: DialogProps) {
       <Button
         variant="outline"
         className={cn(
-          "relative w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64"
+          "relative w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 hidden md:flex"
         )}
         onClick={() => setOpen(true)}
         {...props}
       >
-        <span className="hidden lg:inline-flex">Search documentation...</span>
-        <span className="inline-flex lg:hidden">Search...</span>
+        <span className="inline-flex">Search...</span>
         <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-          <span className="text-xs">⌘</span>K
+          {/* <span className="text-xs">⌘</span>K */}
+          <span className="text-xs">ctrl. k</span>
         </kbd>
+      </Button>
+      <Button variant={"ghost"}
+        className={cn("md:hidden")}
+        onClick={() => setOpen(true)}
+      >
+        <Search />
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
+        <CommandList className="pb-1">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Links">
             {/* {docsConfig.mainNav

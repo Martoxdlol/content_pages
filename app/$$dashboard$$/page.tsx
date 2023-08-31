@@ -1,3 +1,7 @@
-export default function Home() {
-    return "Dashboard"
+import SiteHeader from "~/components/SiteHeader";
+
+export default function Dashboard() {
+    return <>
+        <SiteHeader />
+    </>
 }
