@@ -11,7 +11,7 @@ interface TocProps {
   toc: TableOfContents
 }
 
-export function DashboardTableOfContents({ toc }: TocProps) {
+export function TableOfContents({ toc }: TocProps) {
   const itemIds = React.useMemo(
     () =>
       toc.items

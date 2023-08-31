@@ -10,7 +10,7 @@ export interface DocsSidebarNavProps {
   items: SidebarNavItem[]
 }
 
-export function DocsSidebarNav({ items }: DocsSidebarNavProps) {
+export function SidebarNav({ items }: DocsSidebarNavProps) {
   const pathname = usePathname()
 
   return items.length ? (
