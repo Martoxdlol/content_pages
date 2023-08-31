@@ -1,70 +1,37 @@
 import { env } from './env.mjs'
 
+
+const hasPlatformDomainHost =[ { type: 'host', value: env.ADMIN_DOMAIN, } ]
+const hasSiteDomainHost = [ { type: 'host', value: '(?<slug>[a-z0-9\-]*)\.' + env.NEXT_PUBLIC_DOMAIN, } ]
+const missingSiteDomainHost = [ { type: 'host', value: env.ADMIN_DOMAIN, } ]
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     async rewrites() {
         return {
             beforeFiles: [
-                {
-                    source: '/',
-                    has: [
-                        { type: 'host', value: env.ADMIN_DOMAIN, }
-                    ],
-                    destination: '/platform/',
-                },
-                {
-                    source: '/platform/:path*',
-                    has: [
-                        { type: 'host', value: env.ADMIN_DOMAIN, }
-                    ],
-                    destination: '/platform/platform/:path*',
-                },
-                {
-                    source: '/',
-                    has: [
-                        { type: 'host', value: '(?<slug>[a-z0-9\-]*)\.' + env.NEXT_PUBLIC_DOMAIN, }
-                    ],
-                    missing: [
-                        { type: 'host', value: env.ADMIN_DOMAIN, },
-                    ],
-                    destination: '/site/:slug/',
-                },
-                {
-                    source: '/site/:path*',
-                    has: [
-                        { type: 'host', value: '(?<slug>[a-z0-9\-]*)\.' + env.NEXT_PUBLIC_DOMAIN, }
-                    ],
-                    missing: [
-                        { type: 'host', value: env.ADMIN_DOMAIN, },
-                    ],
-                    destination: '/site/:slug/:path*',
-                }
+                // {
+                //     source: '/site/:path*',
+                //     has: hasPlatformDomainHost,
+                //     destination: '/platform/site/:path*',
+                // },
+                // {
+                //     source: '/platform/:path*',
+                //     has: hasSiteDomainHost,
+                //     missing: missingSiteDomainHost,
+                //     destination: '/site/:slug/platform/:path*',
+                // },
             ],
             afterFiles: [
                 {
                     source: '/:path*',
-                    has: [
-                        {
-                            type: 'host',
-                            value: env.ADMIN_DOMAIN,
-                        }
-                    ],
+                    has: hasPlatformDomainHost,
                     destination: '/platform/:path*',
                 },
                 {
                     source: '/:path*',
-                    has: [
-                        {
-                            type: 'host',
-                            value: '(?<slug>[a-z0-9\-]*)\.' + env.NEXT_PUBLIC_DOMAIN,
-                        }
-                    ],
-                    missing: [
-                        {
-                            type: 'host',
-                            value: env.ADMIN_DOMAIN,
-                        },
-                    ],
+                    has: hasSiteDomainHost,
+                    missing: missingSiteDomainHost,
                     destination: '/site/:slug/:path*',
                 }
             ]
