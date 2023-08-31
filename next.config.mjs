@@ -15,12 +15,12 @@ const nextConfig = {
                 //     has: hasPlatformDomainHost,
                 //     destination: '/platform/site/:path*',
                 // },
-                // {
-                //     source: '/platform/:path*',
-                //     has: hasSiteDomainHost,
-                //     missing: missingSiteDomainHost,
-                //     destination: '/site/:slug/platform/:path*',
-                // },
+                {
+                    source: '/platform/:path*',
+                    has: hasSiteDomainHost,
+                    missing: missingSiteDomainHost,
+                    destination: '/site/:slug/platform/:path*',
+                },
             ],
             afterFiles: [
                 {
