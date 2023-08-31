@@ -27,6 +27,7 @@ export const env = createEnv({
     DATABASE_USERNAME: z.string(),
     DATABASE_PASSWORD: z.string(),
     ADMIN_DOMAIN: z.string(),
+    NEXT_PUBLIC_DOMAIN: z.string(),
   },
 
   /**
@@ -36,6 +37,7 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string().min(1),
+    NEXT_PUBLIC_DOMAIN: z.string(),
   },
 
   /**
@@ -53,6 +55,7 @@ export const env = createEnv({
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
     ADMIN_DOMAIN: process.env.ADMIN_DOMAIN,
+    NEXT_PUBLIC_DOMAIN: process.env.NEXT_PUBLIC_DOMAIN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

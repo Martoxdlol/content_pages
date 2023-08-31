@@ -9,6 +9,7 @@ import { serverSession } from '~/server/auth'
 export default async function Home() {
     const session = await serverSession()
 
+    
 
     const toc = <TableOfContents toc={{
         items: [
@@ -52,7 +53,7 @@ export default async function Home() {
             }
         ]} />
         <Title
-            title="NOOO"
+            title="Super page"
             subtitle="Description"
         />
         <Badges badges={[

@@ -13,8 +13,10 @@ import { SiteFooter } from "./site-footer"
 
 export type LayoutProps = {
     children: React.ReactNode
+    title?: React.ReactNode
     sideNav?: React.ReactNode
     tableOfContents?: React.ReactNode
+    showMobileNavMenuOnDesktop?: boolean
 }
 
 function LayoutWrapper({ children, sideNav }: Pick<LayoutProps, "children" | "sideNav">) {
@@ -38,11 +40,11 @@ function LayoutWrapper({ children, sideNav }: Pick<LayoutProps, "children" | "si
 
 export default function Layout(props: LayoutProps) {
     return <>
-        <SiteHeader />
+        <SiteHeader title={props.title} showOnDesktop={props.showMobileNavMenuOnDesktop}/>
         <LayoutWrapper
             {...props}
         >
-            <main className={cn("relative py-6 lg:gap-10 lg:py-8 xl:grid", {
+            <main className={cn("relative py-6 lg:gap-10 lg:py-8 xl:grid min-h-[calc(100vh-130px)]", {
                 "xl:grid-cols-[1fr_300px]": !!props.tableOfContents,
             })}>
                 <div className="mx-auto w-full min-w-0">

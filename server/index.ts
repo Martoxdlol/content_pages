@@ -1,15 +1,11 @@
 import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { httpBatchLink } from "@trpc/client";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
+import { sitesRouter } from "./site/sites-router";
 
 // Add your server procedures here
 export const appRouter = router({
-    time: publicProcedure.query(() => {
-        return new Date().toTimeString();
-    }),
-    message: protectedProcedure.query(async ({ ctx: { session } }) => {
-        return `Hi ${session?.user.name}, your email is ${session?.user.email}`;
-    })
+    site: sitesRouter,
 });
 
 export type AppRouter = typeof appRouter;
