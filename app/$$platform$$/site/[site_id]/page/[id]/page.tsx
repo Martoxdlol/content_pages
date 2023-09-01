@@ -1,38 +1,35 @@
-import { PlusIcon } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
 import Layout from "~/components/Layout";
 import Title from "~/components/blocks/Title";
 
 import { Skeleton } from "~/components/ui/skeleton";
 import { serverSession } from "~/server/auth";
-import { getSiteBySlugOf, getSitesOf } from "~/services/sites";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "~/components/ui/card";
-import { env } from "~/env.mjs";
-import { Button } from "~/components/ui/button";
-import { useParams } from 'next/navigation'
+import { getSiteByIdOf, getSitesOf } from "~/services/sites";
 import { PageContentEditor } from "./page-content-editor";
 import { PageEditorProvider } from "./page-editor-provider";
+import { cn } from "~/lib/utils";
 
-export default function SiteWrapper({ params }: { params: { slug: string } }) {
+export default function SiteWrapper({ params }: { params: { id: string } }) {
 
     return <Suspense fallback={<PageSkeleton />}>
-        <MyPage slug={params.slug} />
+        <MyPage id={params.id} />
     </Suspense>
 }
 
 
-export function PageSkeleton() {
+function PageSkeleton() {
     return <Layout
-        title={<Skeleton className="ml-3 w-40 h-7" />}
+        title={<span
+            className={cn("animate-pulse rounded-md bg-primary/10", "ml-3 w-40 h-7")}
+        />}
     >
         <Skeleton className="h-10 w-[260px]" />
     </Layout>
 }
 
-async function MyPage(props: { slug: string }) {
+async function MyPage(props: { id: string }) {
     const session = (await serverSession())!
-    const site = await getSiteBySlugOf(session.user.id, props.slug)
+    const site = await getSiteByIdOf(session.user.id, props.id)
 
     if (!site) return <Layout
         showMobileNavMenuOnDesktop

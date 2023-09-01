@@ -6,7 +6,6 @@ import { ThemeProvider } from "~/components/theme-provider"
 
 import { api } from "~/lib/client";
 
-
 export type ProvidersProps = {
     children: React.ReactNode
 }

@@ -21,29 +21,33 @@ import {
 } from "~/components/ui/form"
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { createSiteSchema } from "~/types/site";
+import { Site, changeSiteSchema, createSiteSchema } from "~/types/site";
 import { env } from "~/env.mjs";
 import { api } from "~/lib/client";
 import { SpinnerButton } from "~/components/spinner";
+import { useRouter } from "next/navigation";
 
-export function CreateSite(props: { isFirst: boolean }) {
-
-    const form = useForm<z.infer<typeof createSiteSchema>>({
-        resolver: zodResolver(createSiteSchema),
+export function ChangeSite(props: { site: Site }) {
+    const form = useForm<z.infer<typeof changeSiteSchema>>({
+        resolver: zodResolver(changeSiteSchema),
         defaultValues: {
-            name: "",
-            slug: "",
+            name: props.site.name,
+            slug: props.site.slug,
+            id: props.site.id
         },
     })
 
-    const { mutateAsync, isLoading } = api.site.create.useMutation()
+    const { mutateAsync, isLoading } = api.site.change.useMutation()
 
-    async function onSubmit(values: z.infer<typeof createSiteSchema>) {
+    const router = useRouter()
+
+    async function onSubmit(values: z.infer<typeof changeSiteSchema>) {
         if (isLoading) return
 
         try {
+            console.log(values)
             await mutateAsync(values)
-            form.reset()
+            router.refresh()
         } catch (e: any) {
             form.setError('slug', {
                 type: 'onChange',
@@ -55,22 +59,15 @@ export function CreateSite(props: { isFirst: boolean }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Card className="relative cursor-pointer" aria-role="button">
-                    <CardHeader>
-                        <CardTitle>{!props.isFirst ? 'Crear un nuevo sitio' : 'Crea tu primer sitio'}</CardTitle>
-                    </CardHeader>
-                    <div className="absolute top-0 bottom-0 right-0 pr-5 flex items-center">
-                        <PlusIcon />
-                    </div>
-                </Card>
+                <Button className="px-0.5" variant="link">Change name/identifier</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                         <DialogHeader>
-                            <DialogTitle>Create new site</DialogTitle>
+                            <DialogTitle>Change site name</DialogTitle>
                             <DialogDescription>
-                                Define your site name here. Click create when you're done.
+                                Make changes to your site here. Click save when you're done.
                             </DialogDescription>
                         </DialogHeader>
 
@@ -108,7 +105,7 @@ export function CreateSite(props: { isFirst: boolean }) {
                                             <FormControl>
                                                 <Input id="slug" {...field} placeholder="My Site" className="col-span-3" />
                                             </FormControl>
-                                            <FormDescription className="col-span-4">
+                                            <FormDescription className="col-span-4 text-ellipsis overflow-hidden">
                                                 Your site url will be {field.value}.{env.NEXT_PUBLIC_DOMAIN}
                                             </FormDescription>
                                             <FormMessage className="col-span-4" />
@@ -118,7 +115,7 @@ export function CreateSite(props: { isFirst: boolean }) {
                             />
                         </div>
                         <DialogFooter>
-                            {isLoading ? <SpinnerButton /> : <Button type="submit">Create</Button>}
+                            {isLoading ? <SpinnerButton /> : <Button type="submit">Save</Button>}
                         </DialogFooter>
                     </form>
                 </Form>

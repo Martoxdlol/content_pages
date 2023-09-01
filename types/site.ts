@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { AsyncReturnType } from "~/lib/utils";
-import type { getSiteBySlugOf } from "~/services/sites";
+import type { getSiteByIdOf } from "~/services/sites";
 
 // DOMAIN REGEX
 // ^(((?!-))(xn--|_)?[a-z0-9-]{0,61}[a-z0-9]{1,1}\.)*(xn--)?([a-z0-9][a-z0-9\-]{0,60}|[a-z0-9-]{1,30}\.[a-z]{2,})$
@@ -8,7 +8,7 @@ import type { getSiteBySlugOf } from "~/services/sites";
 
 export const domainSegmentRegex = /^((?!-))(xn--|_)?[a-z0-9-]{0,61}[a-z0-9]{1,1}$/
 
-export type Site = NonNullable<AsyncReturnType<typeof getSiteBySlugOf>>
+export type Site = NonNullable<AsyncReturnType<typeof getSiteByIdOf>>
 
 const nameOptions = {
     message: "Site name must be between 1 and 255 characters long."
