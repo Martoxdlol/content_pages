@@ -57,3 +57,8 @@ export async function changeSite(input: ChangeSiteInput, userId: string) {
         throw error
     }
 }
+
+export function userCanCreatePage(siteId: string, userId: string) {
+    // TODO: Complete this function, validate permissions
+    return true
+}

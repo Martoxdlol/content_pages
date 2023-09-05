@@ -8,6 +8,7 @@ import { getSiteByIdOf, getSitesOf } from "~/services/sites";
 import { PageContentEditor } from "./page-content-editor";
 import { PageEditorProvider } from "./page-editor-provider";
 import { cn } from "~/lib/utils";
+import { getPageById } from "~/services/pages";
 
 export default function SiteWrapper({ params }: { params: { id: string } }) {
 
@@ -29,9 +30,9 @@ function PageSkeleton() {
 
 async function MyPage(props: { id: string }) {
     const session = (await serverSession())!
-    const site = await getSiteByIdOf(session.user.id, props.id)
+    const page = await getPageById(props.id, session.user.id)
 
-    if (!site) return <Layout
+    if (!page) return <Layout
         showMobileNavMenuOnDesktop
     >
         <Title title={"Site not found"} />
@@ -42,9 +43,9 @@ async function MyPage(props: { id: string }) {
     >
         <Layout
             showMobileNavMenuOnDesktop
-            title={site.name}
+            title={page.name}
         >
-            <PageContentEditor page={site} />
+            <PageContentEditor page={page} />
         </Layout>
     </PageEditorProvider>
 }

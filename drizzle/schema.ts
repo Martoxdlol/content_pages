@@ -19,9 +19,11 @@ export const page = mysqlTable("page", {
     ...schemaCommon,
 
     name: varchar("name", { length: 255 }).notNull(),
-    slug: varchar("slug", { length: 255 }).notNull().unique(),
+    path: varchar("path", { length: 255 }).notNull(),
 
     content: json("content").notNull().$type<z.infer<typeof pageContentSchema>>().default([]),
 
     siteId: varchar("site", { length: 255 }).notNull(),
-}) 
+}, (t) => ({
+    unique_path: unique().on(t.path, t.siteId),
+})) 

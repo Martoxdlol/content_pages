@@ -1,22 +1,23 @@
 "use client"
 
 import { createContext, useState } from "react"
+import type { Page } from "~/services/pages"
 
 
 type Site = any
 
-type PageEditorContext = {
+export type PageEditor = {
     update: () => void
     versions: Site[]
     index: number
-    stage: Site
+    stage: Page
     undo: () => void
 }
 
-export const pageEditorContext = createContext<PageEditorContext | null>(null)
+export const pageEditorContext = createContext<PageEditor | null>(null)
 
 export function PageEditorProvider(props: { children: React.ReactNode, initialSite: Site }) {
-    const [context, setContext] = useState<PageEditorContext>({
+    const [context, setContext] = useState<PageEditor>({
         update,
         stage: props.initialSite,
         versions: [],

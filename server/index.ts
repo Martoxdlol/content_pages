@@ -2,10 +2,12 @@ import { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 import { httpBatchLink } from "@trpc/client";
 import { protectedProcedure, publicProcedure, router } from "./trpc";
 import { sitesRouter } from "./site/sites-router";
+import { pagesRouter } from "./site/page-router";
 
 // Add your server procedures here
 export const appRouter = router({
     site: sitesRouter,
+    page: pagesRouter,
 });
 
 export type AppRouter = typeof appRouter;

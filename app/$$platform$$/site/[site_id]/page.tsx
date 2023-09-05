@@ -6,7 +6,8 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { serverSession } from "~/server/auth";
 import { getSiteByIdOf, getSitesOf } from "~/services/sites";
 import { SiteEditor } from "./site-editor";
-import { DataTableDemo } from "./pages-table";
+import { PagesTable } from "./pages-table";
+import { getPagesOfSite } from "~/services/pages";
 
 
 export default function SiteWrapper({ params }: { params: { site_id: string } }) {
@@ -40,13 +41,15 @@ async function MySite(props: { id: string }) {
         title={site.name}
     >
         <SiteEditor site={site} />
-        <SitePages />
+        <SitePages siteId={site.id} />
     </Layout>
 }
 
-async function SitePages() {
-    // get pages
+async function SitePages(props: { siteId: string }) {
+    const pages = await getPagesOfSite(props.siteId)
 
-    return <DataTableDemo />
+    return <PagesTable
+        pages={pages}
+    />
 }
 
