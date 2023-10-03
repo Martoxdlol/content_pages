@@ -35,8 +35,10 @@ export default async function RootLayout({
             <body className={inter.className}>
                 <Providers>
                     <Layout>
-                        <Title title='Sign In' />
-                        <SignInButton />
+                        <div className='space-y-5'>
+                            <Title title='Sign In' />
+                            <SignInButton />
+                        </div>
                     </Layout>
                 </Providers>
             </body>

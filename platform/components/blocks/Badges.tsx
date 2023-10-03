@@ -15,7 +15,7 @@ export default function Badges(props: BadgesProps) {
     return <div className="flex items-center space-x-2 pt-4">
 
         {props.badges.map((badge, i) => {
-            return <Badge variant={'secondary'}>
+            return <Badge key={i} variant={'secondary'}>
                 {badge.name}
             </Badge>
         })}

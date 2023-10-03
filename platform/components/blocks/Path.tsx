@@ -18,7 +18,7 @@ export default function Path(props: PathProps) {
         </Link>
         <ChevronRightIcon className="h-4 w-4" />
         {props.segments.slice(1).map((segment, i) => {
-            return <Link href={urlOf(segment.destination)} className="font-medium text-foreground">{segment.title}</Link>
+            return <Link key={i} href={urlOf(segment.destination)} className="font-medium text-foreground">{segment.title}</Link>
         })}
     </div>
 }
